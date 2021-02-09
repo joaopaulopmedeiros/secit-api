@@ -1,2 +1,17 @@
 # secit-api
-REST API for SECIT
+
+## Descrição
+REST API proposta para o sistema SECIT 2021.
+
+## Stack
+- [Node](https://nodejs.org/en/)
+- [Express](https://expressjs.com/pt-br/)
+- [Mongoose](https://mongoosejs.com/)
+
+## API Documentation
+- Swagger
+- Insomnia Exports
+
+## Contribution
+- [Mongoose](./.github/contribution.md)
+
