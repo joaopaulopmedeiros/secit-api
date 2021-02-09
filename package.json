@@ -1,0 +1,12 @@
+{
+  "name": "secit",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/joaopaulopmedeiros/secit-api.git",
+  "author": "João Paulo Pereira de Medeiros <medeiros.p@academico.ifrn.edu.br>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "knex": "^0.21.17"
+  }
+}
