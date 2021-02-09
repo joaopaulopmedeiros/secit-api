@@ -13,5 +13,5 @@ REST API proposta para o sistema SECIT 2021.
 - Insomnia Exports
 
 ## Contribution
-- [Mongoose](./.github/contribution.md)
+- [Faça parte desse time](./.github/contribution.md)
 
