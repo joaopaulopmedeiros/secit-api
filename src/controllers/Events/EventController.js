@@ -7,7 +7,7 @@ module.exports =  {
     },
 
     async store(request, response){
-        const { name } = request.body;
+        const { name, year } = request.body;
         
         let event = await Event.findOne({ name }); 
 
