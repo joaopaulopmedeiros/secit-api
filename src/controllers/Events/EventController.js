@@ -1,5 +1,5 @@
 const axios = require('axios');
-const Event = require('../models/Event');
+const Event = require('../../models/Event');
 
 module.exports =  {
     async index(request, response){
