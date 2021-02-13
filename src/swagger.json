@@ -1,0 +1,62 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "SECIT API",
+        "description": "A Restful Node API",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "host": "localhost:3333",
+    "basePath": "/",
+    "tags": [
+        {
+            "name": "Events",
+            "description": "API for events in the system"
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/eventos": {
+            "get": {
+                "tags": [
+                    "Events"
+                ],
+                "description": "List events in system",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Events listed",
+                        "schema": {
+                            "$ref": "#/definitions/Event"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Event": {
+            "required": [
+                "name",
+                "year"
+            ]
+        }
+    },
+    "Events": {
+        "type": "array",
+        "$ref": "#/definitions/Event"
+    }
+}
