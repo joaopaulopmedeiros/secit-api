@@ -9,8 +9,8 @@ REST API proposta para o sistema SECIT 2021 (Semana de Ciência e Tencnologia do
 - [Mongoose](https://mongoosejs.com/)
 
 ## 📔 API Documentation
-- Swagger
-- Insomnia Exports
+- [Swagger](http://localhost:3333/docs)
+- [Insomnia Exports](./exports)
 
 ## 😃Contribution
 - [Faça parte desse time](./.github/contribution.md)
