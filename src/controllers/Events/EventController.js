@@ -3,7 +3,7 @@ const Event = require('../../models/Event');
 module.exports =  {
     async index(request, response){
         const events = await Event.find();
-        return response.json(events);
+        return response.status(200).json(events);
     },
 
     async store(request, response){

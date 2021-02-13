@@ -7,9 +7,9 @@ const schemaOptions = {
 const EventSchema = new mongoose.Schema({
     name: String,
     year: Number, 
-    prazo_submissao: { type: Date, default: Date.now },
+    /*prazo_submissao: { type: Date, default: Date.now },
     inicio_apresentacao: { type: Date, default: Date.now },
-    fim_apresentacao: { type: Date, default: Date.now },
+    fim_apresentacao: { type: Date, default: Date.now },*/
     /*
     timestamps: { 
         createdAt: 'created_at'     
