@@ -1,7 +1,7 @@
 # secit-api
 
 ## Description
-REST API for SECIT 2021 (Semana de Ciência e Tencnologia do IFRN Campus Natal - Zona Norte).
+REST API for SECIT 2021 (Semana de Ciência e Tecnologia do IFRN Campus Natal - Zona Norte).
 
 ## 💻Stack
 - [Node](https://nodejs.org/en/)
