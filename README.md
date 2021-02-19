@@ -6,14 +6,14 @@ REST API for SECIT 2021 (Semana de Ciência e Tecnologia do IFRN Campus Natal - 
 ## 💻Stack
 - [Node](https://nodejs.org/en/)
 - [Express](https://expressjs.com/pt-br/)
-- [Mongoose](https://mongoosejs.com/)
+- [Mongodb](https://www.mongodb.com/)
 
 ## 📔 API Documentation
 - [Swagger](http://localhost:3333/docs)
 - [Insomnia Exports](./exports)
 
 ## 😃Contribution
-- [Faça parte desse time](./.github/contribution.md)
+- [Join us](./.github/contribution.md)
 <br>
 <table>
   <tr>
