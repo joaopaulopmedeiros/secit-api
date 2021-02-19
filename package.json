@@ -7,6 +7,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon main",
+    "commit": "cz",
     "test": "jest"
   },
   "dependencies": {
