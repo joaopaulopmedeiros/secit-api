@@ -18,12 +18,11 @@ jobs:
       matrix:
         node-version: [10.x, 12.x, 14.x, 15.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
+    
+    env: 
+      MONGO_DB_CONNECTION: ${{ secrets.MONGO_DB_CONNECTION }}
+      
     steps:
-    - name: create env file
-      run: |
-        touch .env
-        echo MONGO_DB_CONNECTION =${{ secrets.MONGO_DB_CONNECTION }} >> .env
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
