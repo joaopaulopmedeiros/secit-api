@@ -1,6 +1,6 @@
 # Contribution
 
-Glad you're here! You're welcome to contribute to this project. You just has got to pay attention the following topics.
+Glad you're here! You're welcome to contribute to this project. You just has got to pay attention to the following topics.
 
 ## Commits and Code Standards
 
