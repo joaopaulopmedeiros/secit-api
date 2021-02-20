@@ -4,7 +4,7 @@ Glad you're here! You're welcome to contribute to this project. You just has got
 
 ## Commits and Code Standards
 
-This project follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification.
+This project follows the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification.
 
 ## Bug reports
 
