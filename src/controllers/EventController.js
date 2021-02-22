@@ -7,14 +7,23 @@ module.exports = {
     },
 
     async store(request, response) {
-        const { name, year } = request.body;
+        const {
+            name,
+            year,
+            prazo_submissao,
+            inicio_apresentacao,
+            fim_apresentacao
+        } = request.body;
 
         let event = await Event.findOne({ name });
 
         if (!event) {
             event = await Event.create({
                 name,
-                year
+                year,
+                prazo_submissao,
+                inicio_apresentacao,
+                fim_apresentacao
             });
         }
 
@@ -60,10 +69,9 @@ module.exports = {
         }
     },
     async delete(request, response) {
-       
         await Event.deleteOne({ _id: request.body.id }, function (err) {
-          if(err)  return response.status(404).json({message: "Not Found"});
-          else  return response.status(200).json({message: "success"});
+            if (err) return response.status(404).json({ message: "Not Found" });
+            else return response.status(200).json({ message: "success" });
         });
     }
 
