@@ -19,6 +19,18 @@ module.exports =  {
         }
 
         return response.json(event);
+    },
+
+    async show(request, response){
+        const { id } = request.params;
+        
+        let event = await Event.findOne({ _id: id }); 
+
+        if (!event) {
+            return response.status(404).json(event);           
+        }
+
+        return response.json(event);
     }
     
 }
