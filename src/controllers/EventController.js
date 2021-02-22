@@ -19,6 +19,15 @@ module.exports =  {
         }
 
         return response.json(event);
+    },
+
+     async delete(request, response) {
+       
+        await Event.deleteOne({ _id: request.body.id }, function (err) {
+          if(err)  return response.status(404).json({message: "Not Found"});
+          else  return response.status(200).json({message: "success"});
+        });
     }
+    
     
 }
