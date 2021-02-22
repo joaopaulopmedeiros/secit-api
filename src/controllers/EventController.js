@@ -1,4 +1,5 @@
 const {
+    HTTP_SUCCESS,
     HTTP_BAD_REQUEST_ERROR,
     HTTP_INTERNAL_SERVER_ERROR,
     HTTP_NOT_FOUND_ERROR
@@ -50,20 +51,28 @@ module.exports = {
         })
 
         try {
-            let event = await Event.findOne({ _id: id })
+            let event = await Event.findOne({ _id: id }, function (err) {
+                if (err) return response.status(404).json({
+                    error: HTTP_NOT_FOUND_ERROR
+                });
+            })
+
             await event.save();
-            return response.json(event);
+
+            return response.json({
+                message: HTTP_SUCCESS,
+                event
+            });
         } catch (e) {
-            return response.status(404).json({
-                error: HTTP_NOT_FOUND_ERROR
+            return response.status(500).json({
+                error: HTTP_INTERNAL_SERVER_ERROR
             })
         }
     },
     async delete(request, response) {
-       
         await Event.deleteOne({ _id: request.body.id }, function (err) {
-          if(err)  return response.status(404).json({message: "Not Found"});
-          else  return response.status(200).json({message: "success"});
+            if (err) return response.status(404).json({ message: HTTP_NOT_FOUND_ERROR });
+            else return response.status(200).json({ message: HTTP_SUCCESS });
         });
     }
 
