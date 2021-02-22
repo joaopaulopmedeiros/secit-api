@@ -1,3 +1,9 @@
+const {
+    HTTP_BAD_REQUEST_ERROR,
+    HTTP_INTERNAL_SERVER_ERROR,
+    HTTP_NOT_FOUND_ERROR
+} = require('../utils/constants/http');
+
 const Event = require('../models/Event');
 
 module.exports = {
@@ -34,29 +40,23 @@ module.exports = {
     },
 
     async update(request, response) {
+
         const { id } = request.params;
 
         const { name } = request.body;
 
-        let event = await Event.findOne({ _id: id });
-
-        if (!event) {
-            return response.status(404).json({
-                error: 'Not Found'
-            });
-        }
-
-        if (name) {
-            event.name = name;
-        }
+        if (!name) return response.status(400).json({
+            error: HTTP_BAD_REQUEST_ERROR
+        })
 
         try {
+            let event = await Event.findOne({ _id: id })
             await event.save();
             return response.json(event);
         } catch (e) {
-            return response.status(500).json({
-                error: 'Internal Server Error'
-            });
+            return response.status(404).json({
+                error: HTTP_NOT_FOUND_ERROR
+            })
         }
     }
 
