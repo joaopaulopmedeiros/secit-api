@@ -5,5 +5,6 @@ const EventController = require('../../controllers/EventController.js');
 events.get('/', EventController.index);
 events.post('/', EventController.store);
 events.get('/:id', EventController.show);
+events.put('/:id', EventController.update);
 
 module.exports = events;
