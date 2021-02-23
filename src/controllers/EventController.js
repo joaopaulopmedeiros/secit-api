@@ -59,10 +59,22 @@ module.exports = {
             });
         });
 
-        return response.status(200).json({
-            message: HTTP_SUCCESS,
-            event
-        });
+        try {
+            if (!event) {
+                return response.status(400).json({
+                    message: HTTP_BAD_REQUEST_ERROR
+                });
+            }
+    
+            return response.status(200).json({
+                message: HTTP_SUCCESS,
+                event
+            });
+        } catch {
+            return response.status(500).json({
+                message: HTTP_INTERNAL_SERVER_ERROR,
+            });
+        }
 
     },
 
@@ -96,7 +108,7 @@ module.exports = {
 
     },
     async delete(request, response) {
-        await Event.deleteOne({ _id: request.body.id }, function (err) {
+        await Event.deleteOne({ _id: request.params.id }, function (err) {
             if (err) return response.status(404).json({ message: HTTP_NOT_FOUND_ERROR });
             else return response.status(200).json({ message: HTTP_SUCCESS });
         });
