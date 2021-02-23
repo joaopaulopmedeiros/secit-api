@@ -30,49 +30,34 @@ module.exports = {
 
         let event = await Event.findOne({ name });
 
-        if (!event) {
-            try {
-                event = await Event.create({
-                    name,
-                    year
-                });
-            } catch {
-                return response.status(500).json({
-                    error: HTTP_INTERNAL_SERVER_ERROR
-                });
-            }
-
-        }
-
-        return response.status(201).json({
-            message: HTTP_SUCCESS,
-            event
-        });
-    },
-
-    async show(request, response) {
-        const { id } = request.params;
-
-        let event = await Event.findOne({ _id: id }, function (err) {
-            if (err) return response.status(404).json({
-                error: HTTP_NOT_FOUND_ERROR
-            });
-        });
-
         try {
-            if (!event) {
-                return response.status(400).json({
-                    message: HTTP_BAD_REQUEST_ERROR
-                });
-            }
-    
-            return response.status(200).json({
+            event = await Event.create({
+                name,
+                year
+            });
+            return response.status(201).json({
                 message: HTTP_SUCCESS,
                 event
             });
         } catch {
             return response.status(500).json({
-                message: HTTP_INTERNAL_SERVER_ERROR,
+                error: HTTP_INTERNAL_SERVER_ERROR
+            });
+        }
+    },
+
+    async show(request, response) {
+        const { id } = request.params;
+
+        try {
+            let event = await Event.findOne({ _id: id });
+            return response.status(200).json({
+                message: HTTP_SUCCESS,
+                event
+            });
+        } catch {
+            return response.status(404).json({
+                message: HTTP_NOT_FOUND_ERROR
             });
         }
 
