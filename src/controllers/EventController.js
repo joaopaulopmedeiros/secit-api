@@ -93,7 +93,7 @@ module.exports = {
 
     },
     async delete(request, response) {
-        await Event.deleteOne({ _id: request.params.id }, function (err) {
+        await Event.deleteOne({ _id: request.body.id }, function (err) {
             if (err) return response.status(404).json({ message: HTTP_NOT_FOUND_ERROR });
             else return response.status(200).json({ message: HTTP_SUCCESS });
         });
