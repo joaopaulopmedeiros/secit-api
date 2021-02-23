@@ -18,9 +18,14 @@ describe('GET /', () => {
         expect(result.status).toBe(200);
     });
     test('show - it must list existing single event', async () => {
-        const id = '6034425fab22702313072a1f';
-        const result = await request.get(`/eventos/${id}`);
-        expect(result.status).toBe(200);
+        const events = await request.get('/eventos');
+        const firstEvent = events.body[0];
+        
+        if (firstEvent) {
+            const id = firstEvent._id;
+            const result = await request.get(`/eventos/${id}`);
+            expect(result.status).toBe(200);
+        }
     });
     test('show - it must not list unexisting single event', async () => {
         const id = 'unexistingevent';
