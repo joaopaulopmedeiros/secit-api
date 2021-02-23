@@ -9,65 +9,91 @@ const Event = require('../models/Event');
 
 module.exports = {
     async index(request, response) {
-        const events = await Event.find();
-        return response.status(200).json(events);
+        try {
+            const events = await Event.find();
+            return response.status(200).json(events);
+        } catch {
+            return response.status(500).json({
+                message: HTTP_INTERNAL_SERVER_ERROR
+            });
+        }
     },
 
     async store(request, response) {
+        const notValid = !request.body.name || !request.body.year;
+
+        if (notValid) return response.status(400).json({
+            error: HTTP_BAD_REQUEST_ERROR
+        });
+
         const { name, year } = request.body;
 
         let event = await Event.findOne({ name });
 
         if (!event) {
-            event = await Event.create({
-                name,
-                year
-            });
+            try {
+                event = await Event.create({
+                    name,
+                    year
+                });
+            } catch {
+                return response.status(500).json({
+                    error: HTTP_INTERNAL_SERVER_ERROR
+                });
+            }
+
         }
 
-        return response.json(event);
+        return response.status(201).json({
+            message: HTTP_SUCCESS,
+            event
+        });
     },
 
     async show(request, response) {
         const { id } = request.params;
 
-        let event = await Event.findOne({ _id: id });
+        let event = await Event.findOne({ _id: id }, function (err) {
+            if (err) return response.status(404).json({
+                error: HTTP_NOT_FOUND_ERROR
+            });
+        });
 
-        if (!event) {
-            return response.status(404).json(event);
-        }
+        return response.status(200).json({
+            message: HTTP_SUCCESS,
+            event
+        });
 
-        return response.json(event);
     },
 
     async update(request, response) {
 
-        const { id } = request.params;
+        const notValid = !request.body.name;
 
+        if (notValid) return response.status(400).json({
+            error: HTTP_BAD_REQUEST_ERROR
+        });
+
+        const { id } = request.params;
         const { name } = request.body;
 
-        if (!name) return response.status(400).json({
-            error: HTTP_BAD_REQUEST_ERROR
-        })
+        let event = await Event.findOne({ _id: id }, function (err) {
+            if (err) return response.status(404).json({
+                error: HTTP_NOT_FOUND_ERROR
+            });
+        });
+
+        event.name = name;
 
         try {
-            let event = await Event.findOne({ _id: id }, function (err) {
-                if (err) return response.status(404).json({
-                    error: HTTP_NOT_FOUND_ERROR
-                });
-            })
-
             await event.save();
-
-            return response.json({
-                message: HTTP_SUCCESS,
-                event
-            });
-        } catch (e) {
+            return response.json(event);
+        } catch {
             return response.status(500).json({
-                error: HTTP_INTERNAL_SERVER_ERROR
-            })
+                message: HTTP_INTERNAL_SERVER_ERROR
+            });
         }
+
     },
     async delete(request, response) {
         await Event.deleteOne({ _id: request.body.id }, function (err) {
