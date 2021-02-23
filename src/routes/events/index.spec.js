@@ -22,13 +22,9 @@ describe('GET /', () => {
         const result = await request.get(`/eventos/${id}`);
         expect(result.status).toBe(200);
     });
-    test('show - it must not list unexisting single event', (done) => {
+    test('show - it must not list unexisting single event', async () => {
         const id = 'unexistingevent';
-        request.get(`/eventos/${id}`)
-            .expect(200)
-            .end(function (err, res) {
-                expect(res.body.error).toBe('Not Found');
-                done();
-            });
+        const result = await request.get(`/eventos/${id}`);
+        expect(result.status).toBe(404);
     });
 });
