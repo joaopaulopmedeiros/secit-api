@@ -20,20 +20,27 @@ module.exports = {
     },
 
     async store(request, response) {
-        const notValid = !request.body.name || !request.body.year;
+        const notValid = !request.body.name || !request.body.year || !request.body.prazo_submissao || !request.body.inicio_apresentacao || !request.body.fim_apresentacao;
 
         if (notValid) return response.status(400).json({
             error: HTTP_BAD_REQUEST_ERROR
         });
 
-        const { name, year } = request.body;
-
-        let event = await Event.findOne({ name });
+        const { 
+            name,
+            year,
+            prazo_submissao,
+            inicio_apresentacao,
+            fim_apresentacao
+        } = request.body;
 
         try {
-            event = await Event.create({
+            let event = await Event.create({
                 name,
-                year
+                year,
+                prazo_submissao,
+                inicio_apresentacao,
+                fim_apresentacao
             });
             return response.status(201).json({
                 message: HTTP_SUCCESS,
