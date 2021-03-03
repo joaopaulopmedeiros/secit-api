@@ -7,7 +7,10 @@ const {
 
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
-
+//const jwt = require('../services/UsersServices')
+const jwt = require('jsonwebtoken')
+require('dotenv').config();
+const secret = 'meudiploma'
 
 module.exports = {
 
@@ -54,9 +57,17 @@ module.exports = {
             });
             //oculta a senha criptografada
             user.password = undefined;
+
+            const token = jwt.sign({
+                user: user.id
+              }, secret, { expiresIn: 60 * 60 });
+
+
+
             return response.status(201).json({
                 message: HTTP_SUCCESS,
-                user
+                user,
+                token
             });
         } catch(err) {
             return response.status(500).json({
@@ -85,8 +96,15 @@ module.exports = {
         
             const match = bcrypt.compareSync(password, user.password);
      
-            if(match) return response.status(201).json({ message: HTTP_SUCCESS, user, password})
-            else return response.status(500).json({ message: HTTP_INTERNAL_SERVER_ERROR, description: "senha incorreta" })
+            if(match){ 
+                const token = jwt.sign({ user: user.id}, process.env.JWT_KEY, { expiresIn: 60 * 60 });
+                user.password = undefined
+                return response.status(201).json({ 
+                    message: HTTP_SUCCESS, 
+                    user, 
+                    token})
+            }
+            else{ return response.status(500).json({ message: HTTP_INTERNAL_SERVER_ERROR, description: "senha incorreta" })}
         
         }catch (err){
             response.status(500).json(
@@ -98,8 +116,8 @@ module.exports = {
     },
 
     async delete(request, response) {
-        //deleção do usuário pelo "id" passado pelo body da req        
-        await User.deleteOne({ _id: request.body.id }, function (err) {
+        //deleção do usuário pelo "id" passado por param da req        
+        await User.deleteOne({ _id: request.params.id }, function (err) {
             if (err) return response.status(404).json({ message: HTTP_NOT_FOUND_ERROR });
             else return response.status(200).json({ message: HTTP_SUCCESS });
         });
