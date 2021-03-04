@@ -60,7 +60,7 @@ module.exports = {
 
             const token = jwt.sign({
                 user: user.id
-              }, secret, { expiresIn: 60 * 60 });
+              }, process.env.JWT_KEY, { expiresIn: 60 * 60 });
 
 
 
@@ -121,7 +121,14 @@ module.exports = {
             if (err) return response.status(404).json({ message: HTTP_NOT_FOUND_ERROR });
             else return response.status(200).json({ message: HTTP_SUCCESS });
         });
+    },
+
+    aboutme(req, res){
+        user = req.auth
+        user.password = undefined
+        return res.send(user)
     }
+    
 
 
 }
