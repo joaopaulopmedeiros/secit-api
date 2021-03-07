@@ -1,7 +1,7 @@
 const users = require('express').Router();
 
 const UserController = require('../../controllers/UserController.js');
-const AuthMiddleware = require('../../services/AuthMiddleware')
+const AuthMiddleware = require('../../middlewares/AuthMiddleware')
 
 //guest
 users.post('/signup', UserController.store);
