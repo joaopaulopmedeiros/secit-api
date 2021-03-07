@@ -7,10 +7,8 @@ const {
 
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
-//const jwt = require('../services/UsersServices')
 const jwt = require('jsonwebtoken')
 require('dotenv').config();
-const secret = 'meudiploma'
 
 module.exports = {
 
@@ -83,7 +81,7 @@ module.exports = {
 
         if (notValid) return response.status(400).json({
             error: HTTP_BAD_REQUEST_ERROR,
-            message: "insira o email e a senha"
+            message: "Insert email and password"
         });
         
         const { 
