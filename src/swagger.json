@@ -20,6 +20,18 @@
     "schemes": [
         "http"
     ],
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "authorization",
+            "in": "header"
+        }
+    },
+    "security": [
+        {
+            "Bearer": []
+        }
+    ],
     "consumes": [
         "application/json"
     ],
