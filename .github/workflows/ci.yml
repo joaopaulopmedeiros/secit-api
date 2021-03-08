@@ -32,3 +32,5 @@ jobs:
     - run: npm test
       env:
         MONGO_DB_CONNECTION: ${{ secrets.MONGO_DB_CONNECTION }}
+        SECRET_EMAIL: ${{ secrets.SECRET_EMAIL }}
+        SECRET_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
