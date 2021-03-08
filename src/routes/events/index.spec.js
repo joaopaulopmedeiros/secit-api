@@ -39,7 +39,7 @@ describe('GET /', () => {
     test('show - it must not list unexisting single event', async () => {
         const id = 'unexistingevent';
         const result = await request.get(`/eventos/${id}`).set('Authorization', `Bearer ${token}`);
-        console.log(result);
+        console.log(result.body);
         expect(result.status).toBe(404);
     });
 });
