@@ -7,14 +7,14 @@ const request = supertest(app);
 let token = '';
 
 beforeAll(async () => {
+    await initializeDatabase();
     const response = await request
         .post('/users/login')
         .send({
             email: `${process.env.SECRET_EMAIL}`,
-            password:  `${process.env.SECRET_PASSWORD}`,
+            password: `${process.env.SECRET_PASSWORD}`,
         })
     token = response.body.token;
-    await initializeDatabase();
 });
 
 afterAll(async () => {
