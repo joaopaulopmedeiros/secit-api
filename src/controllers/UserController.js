@@ -7,16 +7,15 @@ const {
 
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 module.exports = {
-
-
     async index(request, response) {
         try {
             //listar users sem a senha criptografada
             const users = await User.find({},'name email').exec();
+            
             return response.status(200).json(users);
         } catch {
             return response.status(500).json({
@@ -33,7 +32,6 @@ module.exports = {
             error: HTTP_BAD_REQUEST_ERROR
         });
         
-
         let { 
             name,
             email,
@@ -47,6 +45,7 @@ module.exports = {
         
         //inserção da senha criptografada no json CREATE
         password = passwordenc;
+
         try {
             const user = await User.create({
                 name,
@@ -58,9 +57,7 @@ module.exports = {
 
             const token = jwt.sign({
                 user: user.id
-              }, process.env.JWT_KEY, { expiresIn: 60 * 60 });
-
-
+            }, process.env.JWT_KEY, { expiresIn: 60 * 60 });
 
             return response.status(201).json({
                 message: HTTP_SUCCESS,
@@ -89,44 +86,45 @@ module.exports = {
             password,
         } = request.body;
 
-        try{        
+        try {        
             let user = await User.findOne({ email: email });
         
             const match = bcrypt.compareSync(password, user.password);
      
-            if(match){ 
+            if (match) { 
                 const token = jwt.sign({ user: user.id}, process.env.JWT_KEY, { expiresIn: 60 * 60 });
-                user.password = undefined
-                return response.status(201).json({ 
+                user.password = undefined;
+
+                return response.status(200).json({ 
                     message: HTTP_SUCCESS, 
                     user, 
-                    token})
+                    token
+                });
             }
-            else{ return response.status(500).json({ message: HTTP_INTERNAL_SERVER_ERROR, description: "senha incorreta" })}
-        
-        }catch (err){
-            response.status(500).json(
-                { 
-                    message: HTTP_INTERNAL_SERVER_ERROR, 
-                })
+            else { 
+                return response.status(400).json({ 
+                    message: HTTP_BAD_REQUEST_ERROR, description: "Senha incorreta" 
+                });
+            }
+        } catch (err) {
+            response.status(500).json({ 
+                message: HTTP_INTERNAL_SERVER_ERROR, 
+            });
         }
-
     },
 
     async delete(request, response) {
         //deleção do usuário pelo "id" passado por param da req        
         await User.deleteOne({ _id: request.params.id }, function (err) {
             if (err) return response.status(404).json({ message: HTTP_NOT_FOUND_ERROR });
-            else return response.status(200).json({ message: HTTP_SUCCESS });
+            else return response.status(204).json({ message: HTTP_SUCCESS });
         });
     },
 
     aboutme(req, res){
-        user = req.auth
-        user.password = undefined
-        return res.send(user)
+        user = req.auth;
+        user.password = undefined;
+
+        return res.send(user);
     }
-    
-
-
 }
