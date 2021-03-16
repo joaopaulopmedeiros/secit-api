@@ -4,7 +4,7 @@ const {
     HTTP_INTERNAL_SERVER_ERROR,
     HTTP_NOT_FOUND_ERROR
 } = require('../utils/constants/http');
-
+const mapResource = require('../utils/arrays/mapResource');
 const Event = require('../models/Event');
 
 module.exports = {
@@ -26,7 +26,7 @@ module.exports = {
             error: HTTP_BAD_REQUEST_ERROR
         });
 
-        const { 
+        const {
             name,
             year,
             prazo_submissao,
@@ -70,20 +70,17 @@ module.exports = {
     },
 
     async update(request, response) {
-        const notValid = !request.body.name || !request.body.year || !request.body.prazo_submissao || !request.body.inicio_apresentacao || !request.body.fim_apresentacao;
+        const valid = request.body.name
+            || request.body.year
+            || request.body.prazo_submissao
+            || request.body.inicio_apresentacao
+            || request.body.fim_apresentacao;
 
-        if (notValid) return response.status(400).json({
+        if (!valid) return response.status(400).json({
             error: HTTP_BAD_REQUEST_ERROR
         });
 
         const { id } = request.params;
-        const { 
-            name,
-            year,
-            prazo_submissao,
-            inicio_apresentacao,
-            fim_apresentacao
-        } = request.body;
 
         let event = await Event.findOne({ _id: id }, function (err) {
             if (err) return response.status(404).json({
@@ -91,11 +88,13 @@ module.exports = {
             });
         });
 
-        event.name = name;
-        event.year = year;
-        event.prazo_submissao = prazo_submissao;
-        event.inicio_apresentacao = inicio_apresentacao;
-        event.fim_apresentacao = fim_apresentacao;
+        const fields = mapResource(request.body);
+
+        fields.map(field => {
+            if(Object.keys(event.schema.tree).includes(field.key)) {
+                event[`${field.key}`] = field.value
+            }
+        })
 
         try {
             await event.save();
