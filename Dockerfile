@@ -5,7 +5,7 @@ FROM node:12
 WORKDIR /secit-api
 
 # Install dependencies
-COPY package*.json /secit-api
+COPY /package*.json /secit-api
 RUN npm install
 
 # Bundle app source
